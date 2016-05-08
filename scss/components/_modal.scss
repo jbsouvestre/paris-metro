@@ -1,0 +1,12 @@
+#modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff;
+    width: 200px;
+
+    z-index: $z-index-modal;
+}

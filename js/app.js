@@ -1,0 +1,29 @@
+import 'backbone';
+import 'backbone.babysitter';
+import Radio from 'backbone.radio';
+import MDL from 'exports?componentHandler&MaterialRipple!material-design-lite/material.js';
+import { Application } from 'marionette';
+import './utils/shims/radio';
+import Layout from './views/layout';
+import Store from 'store';
+
+console.log({MDL})
+
+Radio.DEBUG = true;
+
+const App = new Application({
+
+});
+
+App.addInitializer(() => {
+    App.layout = new Layout();
+    App.layout.render();
+});
+
+function bootstrap() {
+    return Store.fetch();
+}
+
+export default App;
+
+export { bootstrap };

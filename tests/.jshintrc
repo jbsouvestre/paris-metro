@@ -1,0 +1,10 @@
+{
+    "extends": "../.jshintrc",
+    "globals": [
+        "describe",
+        "beforeEach",
+        "it",
+        "expect",
+        "spyOn"
+    ]
+}

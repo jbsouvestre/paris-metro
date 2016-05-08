@@ -1,0 +1,7 @@
+{
+    "node": true,
+    "browser": true,
+    "esnext": true,
+    "strict": false,
+    "globals": ["google"]
+}
