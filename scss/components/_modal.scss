@@ -1,12 +1,39 @@
-#modal {
+@mixin modal {
     position: absolute;
+    z-index: $z-index-modal;
+    background: #fff;
+    visibility: hidden;
+    padding: 15px 25px;
+
+    transition: all .2s ease;
+}
+
+
+#modal {
+    
     top: 0;
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
-    background: #fff;
     width: 200px;
+    
+    @include modal;
 
-    z-index: $z-index-modal;
+    &.in {
+        visibility: visible;
+    }
+}
+
+#drawer {
+    
+    bottom: 0;
+    height: 50%;
+    width: 100%;
+
+    @include modal;
+
+    &.in {
+        visibility: visible;
+    }
 }

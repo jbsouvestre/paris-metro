@@ -1,0 +1,7 @@
+extends: "../.eslintrc.yml"
+globals: 
+  it: true
+  describe: true
+  beforeEach: true
+  expect: true
+  spyOn: true

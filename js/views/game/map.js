@@ -6,8 +6,11 @@ import {
 } from '../../constants';
 
 import MapTemplate from 'templates/game/map.hbs';
-import GameChannel, { CLICK_MAP } from 'radio/game';
-
+import GameChannel, { CHANNEL_EVENTS, CHANNEL_ACTIONS } from 'radio/game';
+import MarkerGuess from 'utils/map/marker-guess';
+import MarkerPosition from 'utils/map/marker-position';
+import Line from 'utils/map/line';
+import LatLngToPoint from 'utils/map/lat-lng-to-point';
 const STYLES = [
     {
         featureType: 'all',
@@ -28,19 +31,16 @@ const OPTIONS = {
     streetViewControl: false
 };
 
-function pointToLatLng(point) {
-    return new google.maps.LatLng(point.lat(), point.lng());
-}
-
 export default ItemView.extend({
     template: MapTemplate,
     ui: {
         map: '#map'
     },
     initialize() {
-        GameChannel.on('show:result', (p1, p2) => {
-            this.showLine(p1, p2);
-        })
+        this.storedElements = []
+        this.listenTo(GameChannel, CHANNEL_EVENTS.WAIT_FOR_GUESS, this.onWaitForGuessEnter, this);
+        this.listenTo(GameChannel, CHANNEL_EVENTS.SHOW_MARKER, this.showMarkerGuess, this);
+        this.listenTo(GameChannel, CHANNEL_EVENTS.MOVE_CONFIRMED, this.showResult, this);
     },
     onRender() {
         this.map = new google.maps.Map(this.ui.map.get(0), OPTIONS);
@@ -49,24 +49,30 @@ export default ItemView.extend({
     bindMapEvents() {
         const map = this.map;
         map.addListener('click', (e) => {
-            GameChannel.trigger(CLICK_MAP, e.latLng);
+            GameChannel.request(CHANNEL_ACTIONS.MAKE_GUESS, e.latLng);
         });
     },
-    showMarker(point) {
-        new google.maps.Marker({
-            map: this.map,
-            position: pointToLatLng(point)
-        });
+    onWaitForGuessEnter() {
+        this.storedElements.forEach(el => el.setMap(null));
     },
+    showMarkerGuess(guess) {
+        var marker = MarkerGuess(this.map, guess.lat(), guess.lng());
+        guess.set('marker', marker);
 
-    showLine(p1, p2) {
+        this.storedElements.push(marker);
+    },
+    showResult() {
+        var actual = GameChannel.request(CHANNEL_ACTIONS.SELECTED_MODEL);
+        var guess = GameChannel.request(CHANNEL_ACTIONS.CURRENT_GUESS);
 
-        this.showMarker(p1);
-        this.showMarker(p2);
+        var marker = MarkerPosition(this.map, actual.lat(), actual.lng()); 
+        
+        var line = Line(this.map, 
+            LatLngToPoint(actual.lat(), actual.lng()), 
+            LatLngToPoint(guess.lat(), guess.lng())
+        );
 
-        new google.maps.Polyline({
-            path: [pointToLatLng(p1), pointToLatLng(p2)],
-            map: this.map
-        });
+        this.storedElements.push(marker);
+        this.storedElements.push(line);
     }
 });

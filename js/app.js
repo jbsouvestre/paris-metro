@@ -7,8 +7,6 @@ import './utils/shims/radio';
 import Layout from './views/layout';
 import Store from 'store';
 
-console.log({MDL})
-
 Radio.DEBUG = true;
 
 const App = new Application({
