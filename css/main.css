@@ -5802,7 +5802,7 @@ button.close {
 body, html {
   height: 100%; }
 
-body {
+#app {
   height: 100%;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -5810,7 +5810,7 @@ body {
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column; }
-  body .navbar {
+  #app .navbar {
     -webkit-flex-basis: 50px;
         -ms-flex-preferred-size: 50px;
             flex-basis: 50px; }
