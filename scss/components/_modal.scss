@@ -5,9 +5,9 @@
     border-bottom: 1px solid #e7e7e7;
     padding: 15px 25px;
     overflow: hidden;
-    transform: scale(.6);
+    transform: scale(.3);
 
-    transition: all .2s ease;
+    transition: all .6s ease;
     
     text-align: center;
 
@@ -33,7 +33,7 @@
     }
 }
 
-$drawer-pull: 30%;
+$drawer-pull: 35%;
 
 #drawer {
     

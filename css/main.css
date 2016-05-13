@@ -5765,9 +5765,9 @@ button.close {
   border-bottom: 1px solid #e7e7e7;
   padding: 15px 25px;
   overflow: hidden;
-  -webkit-transform: scale(0.6);
-          transform: scale(0.6);
-  transition: all .2s ease;
+  -webkit-transform: scale(0.3);
+          transform: scale(0.3);
+  transition: all .6s ease;
   text-align: center; }
   #modal.in {
     -webkit-transform: scale(1);
@@ -5776,18 +5776,18 @@ button.close {
     top: 0; }
 
 #drawer {
-  height: 30%;
+  height: 35%;
   width: 100%;
-  bottom: -130%;
+  bottom: -135%;
   position: absolute;
   z-index: 200;
   background: #f8f8f8;
   border-bottom: 1px solid #e7e7e7;
   padding: 15px 25px;
   overflow: hidden;
-  -webkit-transform: scale(0.6);
-          transform: scale(0.6);
-  transition: all .2s ease;
+  -webkit-transform: scale(0.3);
+          transform: scale(0.3);
+  transition: all .6s ease;
   text-align: center; }
   #drawer.in {
     -webkit-transform: scale(1);
