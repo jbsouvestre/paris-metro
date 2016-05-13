@@ -14,6 +14,7 @@ import GameController, { ChannelEvents } from 'controllers/game';
 
 export default LayoutView.extend({
     template: GameTemplate,
+    className: 'game-layout',
     initialize() {
         bindAll(this, 'onMoveConfirmed', 'onGameEnd');
 

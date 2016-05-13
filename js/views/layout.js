@@ -12,6 +12,7 @@ import AboutPage from './about';
 export default LayoutView.extend({
     el: '#app',
     template: LayoutTemplate,
+    className: 'app-layout',
     regions: {
         main: 'main',
         header: 'header',

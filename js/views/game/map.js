@@ -7,8 +7,6 @@ import {
 } from '../../constants';
 
 import MapTemplate from 'templates/game/map.hbs';
-import MarkerGuess from 'utils/map/marker-guess';
-import LatLngToPoint from 'utils/map/lat-lng-to-point';
 
 import { ChannelEvents } from 'controllers/game';
 
@@ -34,6 +32,7 @@ const OPTIONS = {
 
 export default ItemView.extend({
     template: MapTemplate,
+    className: 'map-layout',
     ui: {
         map: '#map'
     },
