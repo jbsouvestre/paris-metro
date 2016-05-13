@@ -7,10 +7,11 @@ import BootstrapModalRegion from 'utils/regions/bootstrap-modal-region';
 import Start from './start';
 import Game from './game';
 
+import AboutPage from './about';
+
 export default LayoutView.extend({
     el: 'body',
     template: LayoutTemplate,
-    className: 'mdl-layout__container mdl-js-layout',
     regions: {
         main: 'main',
         header: 'header',
@@ -19,7 +20,13 @@ export default LayoutView.extend({
             regionClass: BootstrapModalRegion
         }
     },
+    events: {
+        'click .about': 'onClickAbout'
+    },
     onRender() {
         this.showChildView('main', new Game());
+    },
+    onClickAbout() {
+        this.showChildView('modals', new AboutPage());
     }
 });

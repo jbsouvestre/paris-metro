@@ -3,6 +3,7 @@ import Radio from 'backbone.radio';
 import { bindAll } from 'underscore';
 import App from 'app';
 
+import { SAMPLE_SIZE } from 'constants';
 
 import keyMirror from 'utils/key-mirror';
 import getScore from 'utils/score';
@@ -15,7 +16,6 @@ import GameEnded from 'views/game/game-ended';
 
 import { stations } from 'store';
 
-const sampleSize = 10;
 
 const ChannelName = 'game';
 
@@ -25,7 +25,8 @@ const ChannelActions = keyMirror({
 });
 
 const ChannelEvents = keyMirror({
-    CONFIRMED: null
+    CONFIRMED: null,
+    END: null
 });
 export default Marionette.Object.extend({
     initialize() {
@@ -33,7 +34,7 @@ export default Marionette.Object.extend({
 
         this.score = new Score();
         this.guesses = new Guesses();
-        this.stations = new Stations(stations.sample(sampleSize));
+        this.stations = new Stations(stations.sample(SAMPLE_SIZE));
 
         this.channel = Radio.channel(ChannelName);
 
@@ -68,6 +69,8 @@ export default Marionette.Object.extend({
                 model: this.score
             }));
 
+
+            this.trigger(ChannelEvents.END);
         }
     }
 });

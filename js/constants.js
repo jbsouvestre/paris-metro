@@ -18,6 +18,9 @@ export { SCORE_RANGE_UP };
 const SCORE_MAX_HAVERSINE = 5000;
 export { SCORE_MAX_HAVERSINE };
 
+const SAMPLE_SIZE = 2;
+export { SAMPLE_SIZE }
+
 const CONSTANTS = {
     ENDPOINT,
     PARIS_LONG,

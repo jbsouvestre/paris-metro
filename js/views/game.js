@@ -15,7 +15,7 @@ import GameController, { ChannelEvents } from 'controllers/game';
 export default LayoutView.extend({
     template: GameTemplate,
     initialize() {
-        bindAll(this, 'onMoveConfirmed');
+        bindAll(this, 'onMoveConfirmed', 'onGameEnd');
 
         this.controller = new GameController();
         this.collection = this.controller.stations;
@@ -24,10 +24,11 @@ export default LayoutView.extend({
 
 
         this.controller.channel.on(ChannelEvents.CONFIRMED, this.onMoveConfirmed);
+
+        this.controller.channel.on(ChannelEvents.END, this.onGameEnd);
     },
     regions: {
         map: '#map-container',
-        stations: '#stations',
         modal: {
             selector: '#modal',
             regionClass: ModalRegion
@@ -43,7 +44,6 @@ export default LayoutView.extend({
         };
         this.controller.start();
         this.showChildView( 'map', new GMap(options) );
-        this.showChildView( 'stations', new Stations() );
     },
     showConfirmMove() {
         var options = {
@@ -58,5 +58,10 @@ export default LayoutView.extend({
 
         this.showChildView( 'drawer', new MoveDone(opts) );
         this.getRegion('modal').empty();
+    },
+
+    onGameEnd() {
+        this.getRegion('modal').empty();
+        this.getRegion('drawer').empty();
     }
 });
