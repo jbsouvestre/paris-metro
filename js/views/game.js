@@ -1,4 +1,5 @@
 import { LayoutView } from 'marionette';
+import { extend, bindAll } from 'underscore';
 
 import GameTemplate from 'templates/game.hbs';
 import GMap from './game/map';
@@ -8,13 +9,21 @@ import MoveDone from './game/move-done';
 
 import ModalRegion from 'utils/regions/modal-region';
 
-import GameChannel, { ACTIONS, CHANNEL_EVENTS } from 'radio/game'; 
+import GameController, { ChannelEvents } from 'controllers/game';
+
 
 export default LayoutView.extend({
     template: GameTemplate,
     initialize() {
-        GameChannel.on(CHANNEL_EVENTS.WAIT_FOR_GUESS, this.showConfirmMove, this);    
-        GameChannel.on(CHANNEL_EVENTS.MOVE_CONFIRMED, this.onMoveConfirmed, this); 
+        bindAll(this, 'onMoveConfirmed');
+
+        this.controller = new GameController();
+        this.collection = this.controller.stations;
+        
+        this.listenTo(this.collection, 'select', this.showConfirmMove, this);
+
+
+        this.controller.channel.on(ChannelEvents.CONFIRMED, this.onMoveConfirmed);
     },
     regions: {
         map: '#map-container',
@@ -29,18 +38,25 @@ export default LayoutView.extend({
         }
     },
     onRender() {
-        this.showChildView( 'map', new GMap() );
+        var options = {
+            controller: this.controller
+        };
+        this.controller.start();
+        this.showChildView( 'map', new GMap(options) );
         this.showChildView( 'stations', new Stations() );
-
-        GameChannel.request(ACTIONS.START);
     },
     showConfirmMove() {
-        this.showChildView( 'modal', new ConfirmMove() );
+        var options = {
+            controller: this.controller
+        };
+
+        this.showChildView( 'modal', new ConfirmMove(options));
         this.getRegion('drawer').empty();
     },
-    onMoveConfirmed(score) {
-        var options = {score: score};
-        this.showChildView( 'drawer', new MoveDone(options) );
+    onMoveConfirmed(options) {
+        var opts = extend({controller: this.controller}, options);
+
+        this.showChildView( 'drawer', new MoveDone(opts) );
         this.getRegion('modal').empty();
     }
 });

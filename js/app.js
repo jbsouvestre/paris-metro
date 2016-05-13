@@ -1,7 +1,8 @@
+import 'jquery';
 import 'backbone';
 import 'backbone.babysitter';
+import 'bootstrap-sass';
 import Radio from 'backbone.radio';
-import MDL from 'exports?componentHandler&MaterialRipple!material-design-lite/material.js';
 import { Application } from 'marionette';
 import './utils/shims/radio';
 import Layout from './views/layout';

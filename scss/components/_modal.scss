@@ -2,10 +2,17 @@
     position: absolute;
     z-index: $z-index-modal;
     background: #fff;
-    visibility: hidden;
     padding: 15px 25px;
+    
+    transform: scale(.6);
 
     transition: all .2s ease;
+    
+    text-align: center;
+
+    &.in {
+        transform: scale(1);
+    }
 }
 
 
@@ -16,24 +23,25 @@
     right: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 200px;
-    
+    width: 300px;
+    top: -100px;
     @include modal;
 
     &.in {
-        visibility: visible;
+        top: 0;
     }
 }
 
 #drawer {
     
-    bottom: 0;
     height: 50%;
     width: 100%;
+    
+    bottom: -50%;
 
     @include modal;
 
     &.in {
-        visibility: visible;
+        bottom: 0;
     }
 }

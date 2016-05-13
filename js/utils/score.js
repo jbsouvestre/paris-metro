@@ -17,7 +17,7 @@ function getScore(realPoint, clickedPoint) {
     if(distance > SCORE_MAX_HAVERSINE) {
         return 0;
     } else {
-        return SCORE_RANGE_UP - ( distance / SCORE_RATIO );
+        return Math.ceil(SCORE_RANGE_UP - ( distance / SCORE_RATIO ));
     }
 }
 

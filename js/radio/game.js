@@ -9,7 +9,7 @@ import { stations, score } from 'store';
 import Stations from 'models/stations';
 import Guess from 'models/guess';
 
-import GameStateMachine, {ACTIONS, STATES} from 'controllers/game';
+// import GameStateMachine, {ACTIONS, STATES} from 'controllers/game';
 
 var StationsSample, CurrentGuess;
 
