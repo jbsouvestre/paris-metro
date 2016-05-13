@@ -10,7 +10,7 @@ import Game from './game';
 import AboutPage from './about';
 
 export default LayoutView.extend({
-    el: 'body',
+    el: '#app',
     template: LayoutTemplate,
     regions: {
         main: 'main',
