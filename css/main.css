@@ -5814,12 +5814,11 @@ body {
     -webkit-flex-basis: 50px;
         -ms-flex-preferred-size: 50px;
             flex-basis: 50px; }
-  body main {
-    -webkit-flex-grow: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1; }
 
 main {
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
   position: relative;
   overflow: hidden; }
 

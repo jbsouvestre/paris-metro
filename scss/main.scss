@@ -16,13 +16,10 @@ body {
     .navbar {
         flex-basis: 50px;
     }
-
-    main {
-        flex-grow: 1;
-    }
 }
 
 main {
+    flex-grow: 1;
     position: relative;
     overflow: hidden;
 }
