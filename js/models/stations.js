@@ -12,6 +12,10 @@ import markerGuess from 'utils/map/marker-guess';
 import markerPosition from 'utils/map/marker-position';
 import makeLine from 'utils/map/line';
 
+// true: destroy the markers
+// false: fade the markers
+const DESTROY_MARKERS = false;
+
 const Station = Model.extend({
     initialize() {
         this.listenTo(this, 'deselect', this.onModelDeselected);
@@ -62,11 +66,25 @@ const Station = Model.extend({
     },
 
     onModelDeselected() {
-        ['marker', 'position_marker', 'line'].forEach( key => {
-            if(this.get(key)) {
-                this.get(key).setMap(null);
+        if(DESTROY_MARKERS) {
+            ['marker', 'position_marker', 'line'].forEach( key => {
+                if(this.get(key)) {
+                    this.get(key).setMap(null);
+                }
+            });
+        } else {
+            ['marker', 'position_marker'].forEach(key => {
+                if(this.get(key)) {
+                    this.get(key).setOpacity(0.3);
+                }
+            });
+
+            if(this.get('line')) {
+                this.get('line').setOptions({
+                    strokeColor: '#ccc'
+                });
             }
-        });
+        }
     }
 });
 

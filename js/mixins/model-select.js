@@ -38,8 +38,7 @@ export default {
     selectPrev() {
         return this._selectAt(-1);
     },
-
-    _selectAt(i) {
+    _getSelectedNextElement(i) {
         var selected = this.selected;
 
         if(!selected) {
@@ -49,6 +48,13 @@ export default {
         var currentIndex = this.indexOf(selected);
 
         var toSelect = this.at(currentIndex + i);
+        return toSelect;
+    },
+    hasNext() {
+        return !!this._getSelectedNextElement(1);
+    },
+    _selectAt(i) {
+        var toSelect = this._getSelectedNextElement(i);
         this.select(toSelect);
         return toSelect;
     }

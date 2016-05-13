@@ -7,6 +7,7 @@ import { SAMPLE_SIZE } from 'constants';
 
 import keyMirror from 'utils/key-mirror';
 import getScore from 'utils/score';
+import haversine from 'utils/haversine';
 
 import Score from 'models/score';
 import Guesses from 'models/guesses';
@@ -55,7 +56,8 @@ export default Marionette.Object.extend({
         this.score.add(scoreResult);
 
         this.channel.trigger(ChannelEvents.CONFIRMED, {
-            score: scoreResult
+            score: scoreResult,
+            distance: haversine(selectedModel, guess)
         });
     },
 

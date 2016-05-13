@@ -29,8 +29,11 @@ export default LayoutView.extend({
         this.controller.channel.request(ChannelActions.CONTINUE);
     },
     templateHelpers() {
+        const textNext = this.controller.stations.hasNext() ? 'Continue' : 'See Results';
         return {
             score: Math.ceil(this.getOption('score')),
+            distance: this.getOption('distance'),
+            textNext: textNext
         };
     }
 });
