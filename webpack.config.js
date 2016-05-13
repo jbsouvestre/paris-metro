@@ -11,6 +11,13 @@ module.exports = {
         path: path.join(base, 'dist'),
         filename: 'index.js'
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery'
+        })
+    ],
     module: {
         loaders: [
             {

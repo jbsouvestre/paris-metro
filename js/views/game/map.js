@@ -1,4 +1,5 @@
 import { ItemView } from 'marionette';
+import { bindAll } from 'underscore';
 import {
     PARIS_LONG,
     PARIS_LAT,
@@ -6,11 +7,11 @@ import {
 } from '../../constants';
 
 import MapTemplate from 'templates/game/map.hbs';
-import GameChannel, { CHANNEL_EVENTS, CHANNEL_ACTIONS } from 'radio/game';
 import MarkerGuess from 'utils/map/marker-guess';
-import MarkerPosition from 'utils/map/marker-position';
-import Line from 'utils/map/line';
 import LatLngToPoint from 'utils/map/lat-lng-to-point';
+
+import { ChannelEvents } from 'controllers/game';
+
 const STYLES = [
     {
         featureType: 'all',
@@ -37,42 +38,73 @@ export default ItemView.extend({
         map: '#map'
     },
     initialize() {
-        this.storedElements = []
-        this.listenTo(GameChannel, CHANNEL_EVENTS.WAIT_FOR_GUESS, this.onWaitForGuessEnter, this);
-        this.listenTo(GameChannel, CHANNEL_EVENTS.SHOW_MARKER, this.showMarkerGuess, this);
-        this.listenTo(GameChannel, CHANNEL_EVENTS.MOVE_CONFIRMED, this.showResult, this);
+        bindAll(this, 'onClickMap', 'onMoveConfirmed');
+
+        this.controller = this.getOption('controller');
+
     },
     onRender() {
         this.map = new google.maps.Map(this.ui.map.get(0), OPTIONS);
+
+        this.listenTo(this.controller.stations, 'select', () => {
+            this.bindModelEvents();
+            this.bindMapEvents();
+        });
+        this.listenTo(this.controller.channel, ChannelEvents.CONFIRMED, this.onMoveConfirmed);
+
         this.bindMapEvents();
+        this.bindModelEvents();
     },
     bindMapEvents() {
-        const map = this.map;
-        map.addListener('click', (e) => {
-            GameChannel.request(CHANNEL_ACTIONS.MAKE_GUESS, e.latLng);
+        this.map.addListener('click', this.onClickMap);
+    },
+    clearMapEvents() {
+        google.maps.event.clearListeners(this.map, 'click');
+    },
+    bindModelEvents() {
+        this.model = this.controller.stations.getSelected();
+
+        this.listenTo(this.model, 'change:marker', this.onModelMarkerChange);
+        this.listenTo(this.model, 'change:guess', this.onChangeGuess);
+        this.listenTo(this.model, 'deselect', this.onDeselect);
+    },
+    onClickMap({ latLng: { lat, lng } }) {
+        if(!this.model){
+            return;
+        }
+
+        this.model.setGuess({
+            lat: lat(),
+            lng: lng()
         });
     },
-    onWaitForGuessEnter() {
-        this.storedElements.forEach(el => el.setMap(null));
+    onChangeGuess() {
+        this.model.setMarker();
     },
-    showMarkerGuess(guess) {
-        var marker = MarkerGuess(this.map, guess.lat(), guess.lng());
-        guess.set('marker', marker);
 
-        this.storedElements.push(marker);
+    onModelMarkerChange(model, marker) {
+        marker.setMap(this.map);
     },
-    showResult() {
-        var actual = GameChannel.request(CHANNEL_ACTIONS.SELECTED_MODEL);
-        var guess = GameChannel.request(CHANNEL_ACTIONS.CURRENT_GUESS);
+    
+    onMoveConfirmed() {
 
-        var marker = MarkerPosition(this.map, actual.lat(), actual.lng()); 
-        
-        var line = Line(this.map, 
-            LatLngToPoint(actual.lat(), actual.lng()), 
-            LatLngToPoint(guess.lat(), guess.lng())
-        );
+        this.clearMapEvents();
 
-        this.storedElements.push(marker);
-        this.storedElements.push(line);
+        this.model.getResults();
+
+        const line = this.model.get('line');
+        const positionMarker = this.model.get('position_marker');
+
+        line.setMap(this.map);
+        positionMarker.setMap(this.map);
+        /*
+        var bounds = new google.maps.LatLngBounds();
+        bounds.extend(positionMarker);
+        bounds.extend(this.model.get('marker'));
+
+        this.map.setCenter(bounds.getCenter(), this.map.fitBounds(bounds));*/
+    },
+    onDeselect() {
+        this.stopListening(this.model);
     }
 });

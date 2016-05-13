@@ -1,30 +1,35 @@
 import { ItemView } from 'marionette';
-import ConfirmMoveTemplate from 'templates/game/confirm-move.hbs';
 
-import GameChannel, { CHANNEL_ACTIONS, CHANNEL_EVENTS } from 'radio/game'; 
+import { ChannelActions } from 'controllers/game';
+import ConfirmMoveTemplate from 'templates/game/confirm-move.hbs';
 
 export default ItemView.extend({
     template: ConfirmMoveTemplate,
     initialize() {
-        this.listenTo(GameChannel, CHANNEL_EVENTS.GUESS_MADE, this.enableConfirm, this);
+        this.controller = this.getOption('controller');
+        this.model = this.controller.stations.getSelected();
+
+        this.listenTo(this.model, 'change:guess', this.onChangeGuess);
     },
     ui: {
-        'confirmMove': '.game-confirm-move'
+        progressBar: '.progress-bar',
+        confirmMove: '.game-confirm-move'
     },
     events: {
         'click @ui.confirmMove': 'onClickConfirmMove'
     },
     templateHelpers() {
-        var selectedModel = GameChannel.request(CHANNEL_ACTIONS.SELECTED_MODEL);
         return {
-            'station_name': selectedModel.name()
+            'station_name': this.model.name()
         };
     },
-    enableConfirm() {
-        console.log('move confirmed');
-        this.ui.confirmMove.attr('disabled', false);
+    onChangeGuess(model) {
+        this.toggleConfirm(!model.get('guess'));
+    },
+    toggleConfirm(toggle) {
+        this.ui.confirmMove.attr('disabled', toggle);
     },
     onClickConfirmMove() {
-        GameChannel.request(CHANNEL_ACTIONS.CONFIRM_MOVE);
+        this.controller.channel.request(ChannelActions.CONFIRM);
     }
 });

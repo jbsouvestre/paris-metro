@@ -14,12 +14,11 @@ function image(icon) {
     };
 }
 
-export default function marker(map, lat, lng, icon) {
+export default function marker(lat, lng, icon) {
 
     var imageData = icon == null ? null : image(icon);
 
     return new google.maps.Marker({
-        map: map, 
         position: latLngToPoint(lat, lng),
         icon: imageData,
         animation: google.maps.Animation.DROP,

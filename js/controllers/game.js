@@ -1,32 +1,75 @@
-import StateMachine from 'javascript-state-machine';
+import Marionette from 'marionette';
+import Radio from 'backbone.radio';
+import { bindAll } from 'underscore';
+import App from 'app';
+
+
 import keyMirror from 'utils/key-mirror';
+import getScore from 'utils/score';
 
-const STATES = keyMirror({
-    NOT_STARTED: null,
-    STARTED: null,
-    WAITING_FOR_GUESS: null,
-    GUESS_MADE: null,
-    ENDED: null
+import Score from 'models/score';
+import Guesses from 'models/guesses';
+import Stations from 'models/stations';
+
+import GameEnded from 'views/game/game-ended';
+
+import { stations } from 'store';
+
+const sampleSize = 10;
+
+const ChannelName = 'game';
+
+const ChannelActions = keyMirror({
+    CONFIRM: null,
+    CONTINUE: null
 });
 
-const ACTIONS = {
-    START: 'start',
-    WAIT_FOR_GUESS: 'waitForGuess',
-    GUESS: 'guess',
-    FINISH: 'finish'
-};
+const ChannelEvents = keyMirror({
+    CONFIRMED: null
+});
+export default Marionette.Object.extend({
+    initialize() {
+        bindAll(this, 'onConfirm', 'onContinue');
 
-console.log(ACTIONS);
+        this.score = new Score();
+        this.guesses = new Guesses();
+        this.stations = new Stations(stations.sample(sampleSize));
 
-export default StateMachine.create({
-    initial: STATES.NOT_STARTED,
-    events: [
-        {name: ACTIONS.START, from: STATES.NOT_STARTED, to: STATES.STARTED},
-        {name: ACTIONS.WAIT_FOR_GUESS, from: [ STATES.STARTED, STATES.GUESS_MADE], to: STATES.WAITING_FOR_GUESS},
-        {name: ACTIONS.GUESS, from: [STATES.WAITING_FOR_GUESS, STATES.GUESS_MADE], to: STATES.GUESS_MADE},
-        {name: ACTIONS.FINISH, from: STATES.GUESS_MADE, to: STATES.ENDED} 
-    ]
+        this.channel = Radio.channel(ChannelName);
+
+        this.channel.reply({
+            [ChannelActions.CONFIRM]: this.onConfirm,
+            [ChannelActions.CONTINUE]: this.onContinue
+        });
+    },
+    start() {
+        this.stations.select(this.stations.first());
+    },
+
+    onConfirm() {
+        const selectedModel = this.stations.getSelected();
+        const guess = selectedModel.get('guess');
+        const scoreResult = getScore(selectedModel, guess);
+
+        this.score.add(scoreResult);
+
+        this.channel.trigger(ChannelEvents.CONFIRMED, {
+            score: scoreResult
+        });
+    },
+
+    onContinue() {
+        const nextModel = this.stations.selectNext();
+
+        if(nextModel) {
+            console.log('continuing ...');
+        } else {
+            App.layout.modals.show(new GameEnded({
+                model: this.score
+            }));
+
+        }
+    }
 });
 
-export { ACTIONS };
-export { STATES };
+export { ChannelEvents, ChannelActions };
