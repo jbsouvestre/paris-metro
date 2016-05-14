@@ -1,23 +1,23 @@
 import gulp from 'gulp';
 import sass from 'gulp-sass';
 import autoprefixer from 'gulp-autoprefixer';
+import uncss from 'gulp-uncss';
 import eslint from 'gulp-eslint';
 import gutil, { PluginError } from 'gulp-util';
 
 import webpack from 'webpack';
 import webpackDevServer from 'webpack-dev-server';
-import webpackConfig from './webpack.config';
+import makeWebpackConfig from './webpack.config';
 
 const PORT = 8080;
 
+// STYLES
 const SASS_OPTIONS = {
     style: 'compressed'
 };
-
 const AUTOPREFIXER_OPTIONS = {
     browsers: ['last 2 version']
 };
-
 const SCSS_SOURCE = 'scss/**/*.scss';
 
 const log = {
@@ -25,7 +25,6 @@ const log = {
         console.error(...args);
     }
 };
-
 
 gulp.task('styles', () => {
     return gulp.src(SCSS_SOURCE)
@@ -45,9 +44,24 @@ gulp.task('watch', () => {
     gulp.watch(SCSS_SOURCE, ['styles']);
 });
 
+const prodConfig = makeWebpackConfig({dev: false});
+const devConfig = makeWebpackConfig({dev: true});
 
-gulp.task('dev-server', () => {
-    const compiler = webpack(webpackConfig);
+gulp.task('build:prod', (callback) => {
+    const prodCompiler = webpack(prodConfig);
+    prodCompiler.run(function(err, stats) {
+        if(err) {
+            throw new PluginError('build:prod', stats.toString({
+                colors: true
+            }));
+        }
+
+        callback();
+    });
+});
+
+gulp.task('dev-server', (callback) => {
+    const compiler = webpack(devConfig);
 
     new webpackDevServer(compiler, {
         stats: {
@@ -60,5 +74,7 @@ gulp.task('dev-server', () => {
             }
 
             gutil.log('[webpack-dev-server]', 'http://localhost:8080/webpack-dev-server/index.html');
+        
+            callback();
         });
 });

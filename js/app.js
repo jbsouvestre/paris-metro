@@ -10,9 +10,7 @@ import Store from 'store';
 
 Radio.DEBUG = true;
 
-const App = new Application({
-
-});
+const App = new Application();
 
 App.addInitializer(() => {
     App.layout = new Layout();
