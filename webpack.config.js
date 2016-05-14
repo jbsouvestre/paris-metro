@@ -43,8 +43,8 @@ module.exports = function(options) {
     return _.extend({
         entry: path.join(base, 'js/index.js'),
         output: {
-            path: path.join(base, 'dist'),
-            filename: filename
+            path: base,
+            filename: `dist/${filename}`
         },
         plugins: [
 
