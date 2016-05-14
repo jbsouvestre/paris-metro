@@ -2,6 +2,7 @@ import gulp from 'gulp';
 import sass from 'gulp-sass';
 import autoprefixer from 'gulp-autoprefixer';
 import uncss from 'gulp-uncss';
+import cssnano from 'gulp-cssnano';
 import eslint from 'gulp-eslint';
 import gutil, { PluginError } from 'gulp-util';
 
@@ -20,6 +21,11 @@ const AUTOPREFIXER_OPTIONS = {
 };
 const SCSS_SOURCE = 'scss/**/*.scss';
 
+const UNCSS_OPTIONS = {
+    html: ['index.html', 'js/templates/**/*.hbs'],
+    ignore: [/\.(.*)-layout/, /\.modal(.*)/, /#modal(.*)/, /#drawer(.*)/]
+};
+
 const log = {
     error(...args) {
         console.error(...args);
@@ -30,6 +36,8 @@ gulp.task('styles', () => {
     return gulp.src(SCSS_SOURCE)
         .pipe(sass(SASS_OPTIONS).on('error', log.error))
         .pipe(autoprefixer(AUTOPREFIXER_OPTIONS))
+        .pipe(uncss(UNCSS_OPTIONS))
+        .pipe(cssnano())
         .pipe(gulp.dest('css/'));
 });
 

@@ -20,3 +20,5 @@ rules:
 no-console: "allow"
 globals:
   google: true
+  DEBUG: true
+  PRODUCTION: true

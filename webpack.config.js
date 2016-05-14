@@ -3,6 +3,7 @@ import _ from 'underscore';
 
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import OfflinePlugin from 'offline-plugin';
 
 import MapConfig from './config/maps.json';
 import { GA } from './config/analytics.json';
@@ -31,6 +32,9 @@ var prodPlugins = [
         },
         sourceMap: false
     }),
+    new OfflinePlugin({
+        externals: ['css/main.css']
+    })
 ];
 
 module.exports = function(options) {
@@ -49,7 +53,8 @@ module.exports = function(options) {
         plugins: [
 
             new webpack.DefinePlugin({
-                DEBUG: dev
+                DEBUG: dev,
+                PRODUCTION: !dev
             }),
             new webpack.ProvidePlugin({
                 $: 'jquery',
