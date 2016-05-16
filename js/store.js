@@ -1,12 +1,13 @@
+import STATIONS from 'json!build/metro.json';
+import $ from 'jquery';
 import Stations from 'models/stations';
 
-const stations = new Stations();
+console.log(STATIONS);
+
+const stations = new Stations(STATIONS);
 
 const Store = {
-    stations,
-    fetch() {
-        return stations.fetch().promise();
-    }
+    stations
 };
 
 export default Store;

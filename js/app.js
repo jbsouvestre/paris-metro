@@ -28,10 +28,5 @@ App.addInitializer(() => {
     App.layout.render();
 });
 
-function bootstrap() {
-    return Store.fetch();
-}
-
 export default App;
 
-export { bootstrap };

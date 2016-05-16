@@ -33,7 +33,7 @@ var prodPlugins = [
         sourceMap: false
     }),
     new OfflinePlugin({
-        externals: ['css/main.css', 'build/metro.json']
+        externals: ['css/main.css']
     })
 ];
 

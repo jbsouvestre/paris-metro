@@ -1,5 +1,3 @@
-import App , {bootstrap} from './app';
+import App from './app';
 
-bootstrap().then(() => {
-    App.start();
-});
+App.start();
