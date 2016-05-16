@@ -14,7 +14,7 @@ body, html {
     display: flex;
     flex-direction: column;
     .navbar {
-        flex-basis: 50px;
+        min-height: auto;
     }
 }
 

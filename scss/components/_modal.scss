@@ -36,8 +36,6 @@
 $drawer-pull: 35%;
 
 #drawer {
-    
-    height: $drawer-pull;
     width: 100%;
     bottom: - 100% - $drawer-pull;
     @include modal;

@@ -23,7 +23,7 @@ const SCSS_SOURCE = 'scss/**/*.scss';
 
 const UNCSS_OPTIONS = {
     html: ['index.html', 'js/templates/**/*.hbs'],
-    ignore: [/\.(.*)-layout/, /\.modal(.*)/, /#modal(.*)/, /#drawer(.*)/]
+    ignore: [/\.(.*)-layout/, /\.modal(.*)/, /#modal(.*)/, /#drawer(.*)/, /^\.navbar/, /^\.collapse/, /^#app/]
 };
 
 const log = {

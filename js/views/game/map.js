@@ -27,7 +27,8 @@ const OPTIONS = {
     },
     zoom: DEFAULT_ZOOM,
     styles: STYLES,
-    streetViewControl: false
+    streetViewControl: false,
+    mapTypeControlOptions: { mapTypeIds: [] }
 };
 
 export default ItemView.extend({
