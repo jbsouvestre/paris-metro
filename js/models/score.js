@@ -6,6 +6,8 @@ export default Model.extend({
     },
     add(score) {
         this.set('score', this.get('score') + score);
-        console.info('[SCORE] Score is now', this.get('score'));
+        if(DEBUG) {
+            console.info('[SCORE] Score is now', this.get('score'));
+        }
     }
 });

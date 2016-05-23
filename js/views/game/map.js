@@ -5,6 +5,8 @@ import {
     PARIS_LAT,
     DEFAULT_ZOOM
 } from '../../constants';
+import latLngToPoint from 'utils/map/lat-lng-to-point';
+
 
 import MapTemplate from 'templates/game/map.hbs';
 
@@ -20,11 +22,14 @@ const STYLES = [
     }
 ];
 
+
+const CENTER = {
+    lat: PARIS_LAT, 
+    lng: PARIS_LONG
+};
+
 const OPTIONS = {
-    center: {
-        lat: PARIS_LAT, 
-        lng: PARIS_LONG
-    },
+    center: CENTER,
     zoom: DEFAULT_ZOOM,
     styles: STYLES,
     streetViewControl: false,
@@ -90,21 +95,67 @@ export default ItemView.extend({
 
         this.clearMapEvents();
 
-        this.model.getResults();
+        const { actualPoint, guessPoint} = this.model.getResults();
 
         const line = this.model.get('line');
         const positionMarker = this.model.get('position_marker');
 
         line.setMap(this.map);
         positionMarker.setMap(this.map);
-        /*
-        var bounds = new google.maps.LatLngBounds();
-        bounds.extend(positionMarker);
-        bounds.extend(this.model.get('marker'));
 
-        this.map.setCenter(bounds.getCenter(), this.map.fitBounds(bounds));*/
+        this.setBounds(actualPoint, guessPoint);
+
+    },
+    setBounds(p1, p2) {
+
+        var bounds = new google.maps.LatLngBounds();
+
+        const [highest, lowest] = p1.lat() > p2.lat() ? [p1, p2] : [p2, p1];
+        const RATIO = 0.3;
+
+        bounds.extend(highest);
+
+        var lowestPoint = latLngToPoint(
+            lowest.lat() - ((highest.lat() - lowest.lat()) * RATIO), 
+            lowest.lng()
+        );
+
+        bounds.extend(lowestPoint);
+
+        const DEBUG_BOUNDS = false;
+
+        if(DEBUG && DEBUG_BOUNDS) {
+            var debugBounds = new google.maps.LatLngBounds();
+            debugBounds.extend(p1);
+            debugBounds.extend(p2);
+
+            new google.maps.Rectangle({
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                map: this.map,
+                bounds: debugBounds
+            });
+
+            new google.maps.Rectangle({
+                strokeColor: '#00ff00',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#00ff00',
+                fillOpacity: 0.35,
+                map: this.map,
+                bounds: bounds
+            });
+        }
+
+        this.map.fitBounds(bounds);
     },
     onDeselect() {
         this.stopListening(this.model);
+
+        this.map.setCenter(CENTER);
+        this.map.setZoom(DEFAULT_ZOOM);
     }
 });

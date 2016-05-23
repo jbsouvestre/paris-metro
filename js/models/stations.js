@@ -62,7 +62,9 @@ const Station = Model.extend({
         this.set('position_marker', positionMarker);
         this.set('line', line);
 
-        return this;
+        return {
+            actualPoint, guessPoint
+        };
     },
 
     onModelDeselected() {

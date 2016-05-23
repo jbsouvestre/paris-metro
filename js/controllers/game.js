@@ -64,14 +64,10 @@ export default Marionette.Object.extend({
     onContinue() {
         const nextModel = this.stations.selectNext();
 
-        if(nextModel) {
-            console.log('continuing ...');
-        } else {
+        if(!nextModel) {
             App.layout.modals.show(new GameEnded({
                 model: this.score
             }));
-
-
             this.trigger(ChannelEvents.END);
         }
     }
