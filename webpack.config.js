@@ -32,9 +32,11 @@ var prodPlugins = [
         },
         sourceMap: false
     }),
+    // removed for now -- useless because gmaps api doesn't work offline
+    /*
     new OfflinePlugin({
         externals: ['css/main.css']
-    })
+    })*/
 ];
 
 module.exports = function(options) {
@@ -45,7 +47,17 @@ module.exports = function(options) {
     const filename = dev ? '[name].js' : '[name].[hash].min.js';
 
     return _.extend({
-        entry: path.join(base, 'js/index.js'),
+        entry: {
+            index: path.join(base, 'js/index.js'),
+            libs: [
+                'jquery',
+                'underscore',
+                'backbone',
+                'backbone.radio',
+                'bootstrap-sass',
+                'backbone.marionette'
+            ]
+        },
         output: {
             path: base,
             filename: `dist/${filename}`
@@ -61,6 +73,10 @@ module.exports = function(options) {
                 jQuery: 'jquery',
                 'window.jQuery': 'jquery'
             }),
+            new webpack.optimize.CommonsChunkPlugin(
+                'libs',
+                'dist/libs.min.js'
+            ),
             new HtmlWebpackPlugin({
                 template: 'build/index.hbs',
                 title: 'It works',

@@ -16,7 +16,8 @@ export default ItemView.extend({
     },
     onRender() {
         const score = this.model.get('score');
-        var width = ( (score / SCORE_RANGE_UP) * 100 ).toFixed(2);
+        const max = SAMPLE_SIZE * SCORE_RANGE_UP;
+        var width = ( (score / max ) * 100 ).toFixed(2);
 
         setTimeout(() => {
             this.ui.progressBar.css({

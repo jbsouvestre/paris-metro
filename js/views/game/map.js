@@ -111,7 +111,7 @@ export default ItemView.extend({
         var bounds = new google.maps.LatLngBounds();
 
         const [highest, lowest] = p1.lat() > p2.lat() ? [p1, p2] : [p2, p1];
-        const RATIO = 0.3;
+        const RATIO = 1;
 
         bounds.extend(highest);
 
@@ -128,6 +128,7 @@ export default ItemView.extend({
             var debugBounds = new google.maps.LatLngBounds();
             debugBounds.extend(p1);
             debugBounds.extend(p2);
+            console.log(RATIO);
 
             new google.maps.Rectangle({
                 strokeColor: '#FF0000',

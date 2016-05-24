@@ -6,6 +6,8 @@ import cssnano from 'gulp-cssnano';
 import eslint from 'gulp-eslint';
 import gutil, { PluginError } from 'gulp-util';
 
+import rimraf from 'rimraf';
+
 import webpack from 'webpack';
 import webpackDevServer from 'webpack-dev-server';
 import makeWebpackConfig from './webpack.config';
@@ -32,6 +34,10 @@ const log = {
     }
 };
 
+gulp.task('clean', (cb) => {
+    rimraf('dist/*.js', cb);
+});
+
 gulp.task('styles', () => {
     return gulp.src(SCSS_SOURCE)
         .pipe(sass(SASS_OPTIONS).on('error', log.error))
@@ -55,7 +61,7 @@ gulp.task('watch', () => {
 const prodConfig = makeWebpackConfig({dev: false});
 const devConfig = makeWebpackConfig({dev: true});
 
-gulp.task('build:prod', (callback) => {
+gulp.task('build:prod', ['clean'], (callback) => {
     const prodCompiler = webpack(prodConfig);
     prodCompiler.run(function(err, stats) {
         if(err) {

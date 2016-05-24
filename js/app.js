@@ -5,11 +5,10 @@ import 'bootstrap-sass';
 import Radio from 'backbone.radio';
 import { Application } from 'marionette';
 
-import OfflinePlugin from 'offline-plugin/runtime';
+//import OfflinePlugin from 'offline-plugin/runtime';
 
 import './utils/shims/radio';
 import Layout from './views/layout';
-import Store from 'store';
 
 if(DEBUG) {
     console.warn('Running dev mode');
@@ -18,7 +17,7 @@ if(DEBUG) {
 
 if(PRODUCTION) {
     console.info('Running production mode');
-    OfflinePlugin.install();
+    //OfflinePlugin.install();
 }
 
 const App = new Application();
