@@ -8,7 +8,6 @@ export { PARIS_LAT };
 const PARIS_LONG = 2.3522;
 export { PARIS_LONG };
 
-
 const DEFAULT_ZOOM = 12;
 export { DEFAULT_ZOOM };
 

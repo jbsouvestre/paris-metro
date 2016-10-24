@@ -17,7 +17,7 @@ export default LayoutView.extend({
     },
     onRender() {
         var score = this.getOption('score');
-        var width = ( (score / SCORE_RANGE_UP) * 100 ).toFixed(2);
+        var width = ((score / SCORE_RANGE_UP) * 100).toFixed(2);
 
         setTimeout(() => {
             this.ui.progressBar.css({
@@ -33,7 +33,8 @@ export default LayoutView.extend({
         return {
             score: Math.ceil(this.getOption('score')),
             distance: this.getOption('distance'),
-            textNext: textNext
+            textNext: textNext,
+            scoreIsNull: this.getOption('score') === 0
         };
     }
 });

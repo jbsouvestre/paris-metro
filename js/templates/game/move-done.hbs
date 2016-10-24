@@ -1,15 +1,28 @@
 <div class="container-fluid">
     <div class="row">
         <h4>Your guess was <strong>{{distance distance}}</strong> from the correct location</h4>
-        <p>You score <b>{{score}}</b> points for this round</p>
+        
+        {{#unless scoreIsNull}}
+            <p>You score <b>{{score}}</b> points for this round</p>
+        {{else}}
+            <p class="text-danger">
+                You score no points for this round. <i class="fa fa-frown-o"></i>
+            </p>
+        {{/unless}}
         
         <div class="col-xs-12 col-sm-6 col-sm-6 col-sm-offset-3">
+            {{#unless scoreIsNull}}
             <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width: 0%"></div>
             </div>
+            {{/unless}}
         </div>
+    
         <div class="col-xs-12 col-sm-6 col-sm-6 col-sm-offset-3">
-            <button class="btn btn-primary btn-lg btn-block game-continue">{{textNext}}</button>
+            <button class="btn btn-primary btn-lg btn-block game-continue">
+                {{textNext}}
+                <i class="fa fa-play-circle"></i>
+            </button>
         </div>
     </div>
 </div>
