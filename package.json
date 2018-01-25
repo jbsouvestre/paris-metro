@@ -43,7 +43,7 @@
         "backbone.marionette": "^2.4.5",
         "backbone.radio": "^1.0.4",
         "bootstrap-sass": "^3.3.6",
-        "jquery": "^2.2.3",
+        "jquery": "^3.0.0",
         "underscore": "^1.8.3"
     }
 }
