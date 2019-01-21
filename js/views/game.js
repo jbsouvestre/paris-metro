@@ -2,12 +2,16 @@ import { LayoutView } from 'marionette';
 import { extend, bindAll } from 'underscore';
 import ModalRegion from 'utils/regions/modal-region';
 
-import GameController, { ChannelEvents } from 'controllers/game';
+import GameTemplate from '../templates/game.hbs';
 import GMap from './game/map';
 import ConfirmMove from './game/confirm-move';
 import MoveDone from './game/move-done';
 
-import GameTemplate from 'templates/game.hbs';
+import ModalRegion from '../utils/regions/modal-region';
+
+import GameController, { ChannelEvents } from '../controllers/game';
+
+import GameTemplate from '../.templates/game.hbs';
 
 export default LayoutView.extend({
     template: GameTemplate,

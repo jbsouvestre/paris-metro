@@ -1,6 +1,6 @@
-import haversine from 'utils/haversine';
+import haversine from '../utils/haversine';
 
-import { SCORE_RANGE_UP, SCORE_MAX_HAVERSINE } from 'constants';
+import { SCORE_RANGE_UP, SCORE_MAX_HAVERSINE } from '../constants';
 
 
 /**

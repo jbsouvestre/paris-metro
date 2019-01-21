@@ -1,5 +1,8 @@
 import { LayoutView } from 'marionette';
-import BootstrapModalRegion from 'utils/regions/bootstrap-modal-region';
+
+import LayoutTemplate from '../templates/layout.hbs';
+
+import BootstrapModalRegion from '../utils/regions/bootstrap-modal-region';
 
 import Game from './game';
 import AboutPage from './about';

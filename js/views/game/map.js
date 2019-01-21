@@ -8,9 +8,9 @@ import {
 import latLngToPoint from 'utils/map/lat-lng-to-point';
 
 
-import MapTemplate from 'templates/game/map.hbs';
+import MapTemplate from '../../templates/game/map.hbs';
 
-import { ChannelEvents } from 'controllers/game';
+import { ChannelEvents } from '../../controllers/game';
 
 const STYLES = [
     {
@@ -24,7 +24,7 @@ const STYLES = [
 
 
 const CENTER = {
-    lat: PARIS_LAT, 
+    lat: PARIS_LAT,
     lng: PARIS_LONG
 };
 
@@ -116,7 +116,7 @@ export default ItemView.extend({
         bounds.extend(highest);
 
         var lowestPoint = latLngToPoint(
-            lowest.lat() - ((highest.lat() - lowest.lat()) * RATIO), 
+            lowest.lat() - ((highest.lat() - lowest.lat()) * RATIO),
             lowest.lng()
         );
 

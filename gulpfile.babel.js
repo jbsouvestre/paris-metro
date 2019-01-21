@@ -1,16 +1,17 @@
-import gulp from 'gulp';
-import sass from 'gulp-sass';
-import autoprefixer from 'gulp-autoprefixer';
-import uncss from 'gulp-uncss';
-import cssnano from 'gulp-cssnano';
-import eslint from 'gulp-eslint';
-import gutil, { PluginError } from 'gulp-util';
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const eslint = require('gulp-eslint');
+const gutil = require('gulp-util');
+const uncss = require('gulp-uncss');
+const cssnano = require('gulp-cssnano');
+const eslint = require('gulp-eslint');
+const PluginError = gutil.PluginError;
 
-import rimraf from 'rimraf';
-
-import webpack from 'webpack';
-import webpackDevServer from 'webpack-dev-server';
-import makeWebpackConfig from './webpack.config';
+const webpack = require('webpack');
+const webpackDevServer = require('webpack-dev-server');
+const webpackConfig = require('./webpack.config');
+const rimraf = require('rimraf');
 
 const PORT = 8080;
 
@@ -88,7 +89,7 @@ gulp.task('dev-server', (callback) => {
             }
 
             gutil.log('[webpack-dev-server]', 'http://localhost:8080/webpack-dev-server/index.html');
-        
+
             callback();
         });
 });

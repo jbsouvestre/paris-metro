@@ -3,7 +3,6 @@ import _ from 'underscore';
 
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import OfflinePlugin from 'offline-plugin';
 
 import MapConfig from './config/maps.json';
 import { GA } from './config/analytics.json';
@@ -17,13 +16,8 @@ var devConfig = {
 };
 
 var devPlugins = [
-    
+
 ];
-
-// PROD
-// ----
-
-var prodConfig = {};
 
 var prodPlugins = [
     new webpack.optimize.UglifyJsPlugin({
@@ -34,10 +28,51 @@ var prodPlugins = [
     }),
     // removed for now -- useless because gmaps api doesn't work offline
     /*
-    new OfflinePlugin({
-        externals: ['css/main.css']
-    })*/
+     new OfflinePlugin({
+     externals: ['css/main.css']
+     })*/
 ];
+
+module.exports = {
+    devtool: '#inline-source-map',
+    entry: path.join(base, 'js/index.js'),
+    output: {
+        path: path.join(base, 'dist'),
+        filename: 'index.js'
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery'
+        })
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader'
+                },
+                exclude: /node_modules/
+            },
+            {
+                test: /\.hbs$/,
+                loader: 'handlebars-loader',
+                query: {
+                    helperDirs: [
+                        path.resolve(__dirname, 'js/helpers')
+                    ]
+                }
+            }
+        ]
+    },
+    resolve: {
+        alias: {
+            marionette: 'backbone.marionette',
+        }
+    }
+};
 
 module.exports = function(options) {
 
@@ -85,9 +120,9 @@ module.exports = function(options) {
                 dev: dev,
                 inject: false,
                 minify: dev ? null: {
-                    removeComments: true,
-                    collapseWhitespace: true
-                }
+                        removeComments: true,
+                        collapseWhitespace: true
+                    }
             })
         ].concat(dev ? devPlugins : prodPlugins),
         module: {

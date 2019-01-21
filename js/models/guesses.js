@@ -1,7 +1,7 @@
 import { extend } from 'underscore';
 import { Collection } from 'backbone';
 import { Model } from 'backbone';
-import ModelSelectMixin from 'mixins/model-select';
+import ModelSelectMixin from '../mixins/model-select';
 
 const Guess = Model.extend({
     lat() {

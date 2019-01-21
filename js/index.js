@@ -1,3 +1,6 @@
-import App from './app';
+import App , {bootstrap} from './app';
 
-App.start();
+bootstrap().then(() => {
+    App.start();
+    console.log('app running');
+});
