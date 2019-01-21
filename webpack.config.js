@@ -3,11 +3,10 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-var base = __dirname;
-const DEV = true;
+const devConf = require('./config/config.dev.json');
+const prodConf = require('./config/config.prod.json');
 
-const MAPS_API_KEY = 'AIzaSyC6WCiO25Mti18z2OccWXEkFfmrCgB7ctI';
-const GA = 'UA-52167935-1';
+var base = __dirname;
 
 module.exports = function(options) {
     const DEV = options.dev == true;
@@ -15,9 +14,10 @@ module.exports = function(options) {
     const mode = DEV ? 'development': 'production';
     const devtools = DEV ? '#inline-source-map': null;
 
+    const configFile = DEV ? devConf : prodConf;
     return {
         mode: mode,
-        devtool: '#inline-source-map',
+        devtool: devtools,
         entry: path.join(base, 'js/index.js'),
         output: {
             path: path.resolve(__dirname, 'dist'),
@@ -29,10 +29,14 @@ module.exports = function(options) {
                 jQuery: 'jquery',
                 'window.jQuery': 'jquery'
             }),
+            new webpack.DefinePlugin({
+                SENTRY: configFile.SENTRY,
+                DEBUG: DEV
+            }),
             new HtmlWebpackPlugin({
                 template: 'build/index.hbs',
-                API_KEY: MAPS_API_KEY,
-                GA: GA,
+                API_KEY: configFile.MAPS_API_KEY,
+                GA: configFile.GA,
                 dev: DEV,
                 inject: false,
                 minify: DEV ? null: {
