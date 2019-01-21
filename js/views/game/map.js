@@ -123,6 +123,7 @@ export default ItemView.extend({
         bounds.extend(lowestPoint);
 
         const DEBUG_BOUNDS = false;
+        const DEBUG = false
 
         if(DEBUG && DEBUG_BOUNDS) {
             var debugBounds = new google.maps.LatLngBounds();

@@ -8,16 +8,6 @@ import './utils/shims/radio';
 import Layout from './views/layout';
 import Store from './store';
 
-if(DEBUG) {
-    console.warn('Running dev mode');
-    Radio.DEBUG = true;
-}
-
-if(PRODUCTION) {
-    console.info('Running production mode');
-    //OfflinePlugin.install();
-}
-
 const App = new Application();
 
 App.addInitializer(() => {

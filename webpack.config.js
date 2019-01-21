@@ -25,8 +25,6 @@ module.exports = function(options) {
         },
         plugins: [
             new webpack.ProvidePlugin({
-                DEBUG: DEV,
-                PRODUCTION: !DEV,
                 $: 'jquery',
                 jQuery: 'jquery',
                 'window.jQuery': 'jquery'
