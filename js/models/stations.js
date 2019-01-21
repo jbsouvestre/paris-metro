@@ -1,16 +1,16 @@
 import { extend } from 'underscore';
 import { ENDPOINT } from '../constants';
 import { Model, Collection } from 'backbone';
-import ModelSelectMixin from 'mixins/model-select';
+import ModelSelectMixin from '../mixins/model-select';
 
 
-import { Guess } from 'models/guesses';
+import { Guess } from '../models/guesses';
 
 
-import latLngToPoint from 'utils/map/lat-lng-to-point';
-import markerGuess from 'utils/map/marker-guess';
-import markerPosition from 'utils/map/marker-position';
-import makeLine from 'utils/map/line';
+import latLngToPoint from '../utils/map/lat-lng-to-point';
+import markerGuess from '../utils/map/marker-guess';
+import markerPosition from '../utils/map/marker-position';
+import makeLine from '../utils/map/line';
 
 // true: destroy the markers
 // false: fade the markers

@@ -6,7 +6,7 @@ import Radio from 'backbone.radio';
 import { Application } from 'marionette';
 import './utils/shims/radio';
 import Layout from './views/layout';
-import Store from 'store';
+import Store from './store';
 
 Radio.DEBUG = true;
 

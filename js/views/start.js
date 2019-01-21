@@ -1,5 +1,5 @@
 import { ItemView } from 'marionette';
-import StartTemplate from 'templates/start.hbs';
+import StartTemplate from '../templates/start.hbs';
 
 export default ItemView.extend({
     template: StartTemplate,

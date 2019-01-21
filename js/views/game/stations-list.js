@@ -1,6 +1,6 @@
 import { ItemView, CollectionView } from 'marionette';
 
-import StationListTemplate from 'templates/game/station-list-view.hbs';
+import StationListTemplate from '../../templates/game/station-list-view.hbs';
 
 const StationList = ItemView.extend({
     template: StationListTemplate,

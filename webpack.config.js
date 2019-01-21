@@ -30,20 +30,16 @@ module.exports = {
                 loader: 'handlebars-loader',
                 query: {
                     helperDirs: [
-                        path.join('js/helpers')
+                        path.resolve(__dirname, 'js/helpers')
                     ]
                 }
             }
         ]
     },
     resolve: {
-        root: [
-            path.resolve('./js'),
-            path.resolve('.')
-        ],
         alias: {
             marionette: 'backbone.marionette',
-            backbone: 'backbone.marionette/node_modules/backbone'
+            // backbone: path.resolve(__dirname, 'node_modules/backbone.marionette/node_modules/backbone')
         }
     }
 };

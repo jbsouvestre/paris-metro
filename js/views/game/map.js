@@ -6,11 +6,9 @@ import {
     DEFAULT_ZOOM
 } from '../../constants';
 
-import MapTemplate from 'templates/game/map.hbs';
-import MarkerGuess from 'utils/map/marker-guess';
-import LatLngToPoint from 'utils/map/lat-lng-to-point';
+import MapTemplate from '../../templates/game/map.hbs';
 
-import { ChannelEvents } from 'controllers/game';
+import { ChannelEvents } from '../../controllers/game';
 
 const STYLES = [
     {

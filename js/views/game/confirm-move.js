@@ -1,7 +1,7 @@
 import { ItemView } from 'marionette';
 
-import { ChannelActions } from 'controllers/game';
-import ConfirmMoveTemplate from 'templates/game/confirm-move.hbs';
+import { ChannelActions } from '../../controllers/game';
+import ConfirmMoveTemplate from '../../templates/game/confirm-move.hbs';
 
 export default ItemView.extend({
     template: ConfirmMoveTemplate,

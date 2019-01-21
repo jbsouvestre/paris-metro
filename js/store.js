@@ -1,4 +1,4 @@
-import Stations from 'models/stations';
+import Stations from './models/stations';
 
 const stations = new Stations();
 

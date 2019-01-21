@@ -1,7 +1,7 @@
 import { LayoutView } from 'marionette';
 import StationList from './stations-list';
 
-import StationTemplate from 'templates/game/stations.hbs';
+import StationTemplate from '../../templates/game/stations.hbs';
 
 export default LayoutView.extend({
     template: StationTemplate,

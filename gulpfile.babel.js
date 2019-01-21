@@ -1,12 +1,13 @@
-import gulp from 'gulp';
-import sass from 'gulp-sass';
-import autoprefixer from 'gulp-autoprefixer';
-import eslint from 'gulp-eslint';
-import gutil, { PluginError } from 'gulp-util';
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const eslint = require('gulp-eslint');
+const gutil = require('gulp-util');
+const PluginError = gutil.PluginError;
 
-import webpack from 'webpack';
-import webpackDevServer from 'webpack-dev-server';
-import webpackConfig from './webpack.config';
+const webpack = require('webpack');
+const webpackDevServer = require('webpack-dev-server');
+const webpackConfig = require('./webpack.config');
 
 const PORT = 8080;
 

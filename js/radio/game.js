@@ -1,15 +1,12 @@
 import Radio from 'backbone.radio';
 import _ from 'underscore';
 
-import haversine from 'utils/haversine';
-import getScore from 'utils/score';
-import keyMirror from 'utils/key-mirror';
+import getScore from '../utils/score';
+import keyMirror from '../utils/key-mirror';
 
-import { stations, score } from 'store';
-import Stations from 'models/stations';
-import Guess from 'models/guess';
-
-// import GameStateMachine, {ACTIONS, STATES} from 'controllers/game';
+import { stations, score } from '../store';
+import Stations from '../models/stations';
+import Guess from '../models/guess';
 
 var StationsSample, CurrentGuess;
 
@@ -57,8 +54,6 @@ Channel.reply({
     [CHANNEL_ACTIONS.CURRENT_GUESS]: GetCurrentGuess,
     [CHANNEL_ACTIONS.MOVE_DONE]: MoveDone
 });
-
-export { ACTIONS };
 
 // trigger event on all transitions
 

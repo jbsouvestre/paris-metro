@@ -1,21 +1,21 @@
 import Marionette from 'marionette';
 import Radio from 'backbone.radio';
 import { bindAll } from 'underscore';
-import App from 'app';
+import App from '../app';
 
-import { SAMPLE_SIZE } from 'constants';
+import { SAMPLE_SIZE } from '../constants';
 
-import keyMirror from 'utils/key-mirror';
-import getScore from 'utils/score';
-import haversine from 'utils/haversine';
+import keyMirror from '../utils/key-mirror';
+import getScore from '../utils/score';
+import haversine from '../utils/haversine';
 
-import Score from 'models/score';
-import Guesses from 'models/guesses';
-import Stations from 'models/stations';
+import Score from '../models/score';
+import Guesses from '../models/guesses';
+import Stations from '../models/stations';
 
-import GameEnded from 'views/game/game-ended';
+import GameEnded from '../views/game/game-ended';
 
-import { stations } from 'store';
+import { stations } from '../store';
 
 
 const ChannelName = 'game';

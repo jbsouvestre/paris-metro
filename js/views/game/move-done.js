@@ -1,7 +1,7 @@
 import { LayoutView } from 'marionette';
-import { SCORE_RANGE_UP } from 'constants';
-import MoveDoneTemplate from 'templates/game/move-done.hbs';
-import { ChannelActions } from 'controllers/game';
+import { SCORE_RANGE_UP } from '../../constants';
+import MoveDoneTemplate from '../../templates/game/move-done.hbs';
+import { ChannelActions } from '../../controllers/game';
 
 export default LayoutView.extend({
     template: MoveDoneTemplate,
