@@ -5,6 +5,7 @@ var webpack = require('webpack');
 var base = __dirname;
 
 module.exports = {
+    mode: 'production',
     devtool: '#inline-source-map',
     entry: path.join(base, 'js/index.js'),
     output: {
@@ -19,10 +20,12 @@ module.exports = {
         })
     ],
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
+                use: {
+                    loader: 'babel-loader'
+                },
                 exclude: /node_modules/
             },
             {
