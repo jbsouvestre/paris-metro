@@ -70,12 +70,13 @@ gulp.task('build:prod', ['clean'], (callback) => {
             }));
         }
 
+        console.log(stats);
         callback();
     });
 });
 
 gulp.task('dev-server', (callback) => {
-    const compiler = webpack(devConfig);
+    const compiler = webpack(prodConfig);
 
     new webpackDevServer(compiler, {
         stats: {

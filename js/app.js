@@ -11,8 +11,6 @@ import { init, captureMessage } from '@sentry/browser';
 
 const App = new Application();
 
-console.log(DEBUG);
-
 App.addInitializer(() => {
     if(!DEBUG) {
         init({

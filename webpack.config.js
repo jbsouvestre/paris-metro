@@ -12,7 +12,7 @@ module.exports = function(options) {
     const DEV = options.dev == true;
 
     const mode = DEV ? 'development': 'production';
-    const devtools = DEV ? '#inline-source-map': null;
+    const devtools = DEV ? '#inline-source-map': false;
 
     const configFile = DEV ? devConf : prodConf;
     return {
@@ -30,7 +30,7 @@ module.exports = function(options) {
                 'window.jQuery': 'jquery'
             }),
             new webpack.DefinePlugin({
-                SENTRY: configFile.SENTRY,
+                SENTRY: JSON.stringify(configFile.SENTRY),
                 DEBUG: DEV
             }),
             new HtmlWebpackPlugin({
