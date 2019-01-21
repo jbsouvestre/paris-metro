@@ -16,7 +16,7 @@ import Stations from '../models/stations';
 import GameEnded from '../views/game/game-ended';
 
 import { stations } from '../store';
-
+import { trackGuess, trackScore } from '../utils/analytics';
 
 const ChannelName = 'game';
 
@@ -55,10 +55,13 @@ export default Marionette.Object.extend({
 
         this.score.add(scoreResult);
 
+        const distance = haversine(selectedModel, guess)
         this.channel.trigger(ChannelEvents.CONFIRMED, {
             score: scoreResult,
-            distance: haversine(selectedModel, guess)
+            distance: distance
         });
+
+        trackGuess(distance);
     },
 
     onContinue() {
@@ -69,6 +72,7 @@ export default Marionette.Object.extend({
                 model: this.score
             }));
             this.trigger(ChannelEvents.END);
+            trackScore(this.score);
         }
     }
 });
