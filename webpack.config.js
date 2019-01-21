@@ -1,135 +1,60 @@
-import path from 'path';
-import _ from 'underscore';
+const path = require('path');
 
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-
-import MapConfig from './config/maps.json';
-import { GA } from './config/analytics.json';
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var base = __dirname;
+const DEV = true;
 
-// DEV
-// ----
-var devConfig = {
-    devtool: '#inline-source-map',
-};
-
-var devPlugins = [
-
-];
-
-var prodPlugins = [
-    new webpack.optimize.UglifyJsPlugin({
-        compress: {
-            warnings: false
-        },
-        sourceMap: false
-    }),
-    // removed for now -- useless because gmaps api doesn't work offline
-    /*
-     new OfflinePlugin({
-     externals: ['css/main.css']
-     })*/
-];
-
-module.exports = {
-    devtool: '#inline-source-map',
-    entry: path.join(base, 'js/index.js'),
-    output: {
-        path: path.join(base, 'dist'),
-        filename: 'index.js'
-    },
-    plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery'
-        })
-    ],
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                use: {
-                    loader: 'babel-loader'
-                },
-                exclude: /node_modules/
-            },
-            {
-                test: /\.hbs$/,
-                loader: 'handlebars-loader',
-                query: {
-                    helperDirs: [
-                        path.resolve(__dirname, 'js/helpers')
-                    ]
-                }
-            }
-        ]
-    },
-    resolve: {
-        alias: {
-            marionette: 'backbone.marionette',
-        }
-    }
-};
+const MAPS_API_KEY = 'AIzaSyC6WCiO25Mti18z2OccWXEkFfmrCgB7ctI';
+const GA = 'UA-52167935-1';
 
 module.exports = function(options) {
+    const DEV = options.dev == true;
 
-    var dev = options.dev;
+    const mode = DEV ? 'development': 'production';
+    const devtools = DEV ? '#inline-source-map': null;
 
-    const MAPS_API_KEY = dev ? MapConfig.DEV_API_KEY : MapConfig.PROD_API_KEY;
-    const filename = dev ? '[name].js' : '[name].[hash].min.js';
-
-    return _.extend({
-        entry: {
-            index: path.join(base, 'js/index.js'),
-            libs: [
-                'jquery',
-                'underscore',
-                'backbone',
-                'backbone.radio',
-                'bootstrap-sass',
-                'backbone.marionette'
-            ]
-        },
+    return {
+        mode: mode,
+        devtool: '#inline-source-map',
+        entry: path.join(base, 'js/index.js'),
         output: {
-            path: base,
-            filename: `dist/${filename}`
+            path: path.resolve(__dirname, 'dist'),
+            filename: '[name].js'
         },
         plugins: [
-
-            new webpack.DefinePlugin({
-                DEBUG: dev,
-                PRODUCTION: !dev
-            }),
             new webpack.ProvidePlugin({
+                DEBUG: DEV,
+                PRODUCTION: !DEV,
                 $: 'jquery',
                 jQuery: 'jquery',
                 'window.jQuery': 'jquery'
             }),
-            new webpack.optimize.CommonsChunkPlugin(
-                'libs',
-                'dist/libs.min.js'
-            ),
             new HtmlWebpackPlugin({
                 template: 'build/index.hbs',
-                title: 'It works',
                 API_KEY: MAPS_API_KEY,
                 GA: GA,
-                dev: dev,
+                dev: DEV,
                 inject: false,
-                minify: dev ? null: {
+                minify: DEV ? null: {
                         removeComments: true,
                         collapseWhitespace: true
                     }
             })
-        ].concat(dev ? devPlugins : prodPlugins),
+        ],
+        optimization: {
+            splitChunks: {
+                chunks: 'all'
+            }
+        },
         module: {
-            loaders: [
+            rules: [
                 {
                     test: /\.js$/,
-                    loader: 'babel-loader',
+                    use: {
+                        loader: 'babel-loader'
+                    },
                     exclude: /node_modules/
                 },
                 {
@@ -137,21 +62,16 @@ module.exports = function(options) {
                     loader: 'handlebars-loader',
                     query: {
                         helperDirs: [
-                            path.join('js/helpers')
+                            path.resolve(__dirname, 'js/helpers')
                         ]
                     }
                 }
             ]
         },
         resolve: {
-            root: [
-                path.resolve('./js'),
-                path.resolve('.')
-            ],
             alias: {
                 marionette: 'backbone.marionette',
-                backbone: 'backbone.marionette/node_modules/backbone'
             }
         }
-    }, dev ? devConfig : prodConfig);
+    };
 };

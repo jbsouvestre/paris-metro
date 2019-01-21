@@ -1,7 +1,6 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
-const eslint = require('gulp-eslint');
 const gutil = require('gulp-util');
 const uncss = require('gulp-uncss');
 const cssnano = require('gulp-cssnano');
@@ -10,7 +9,7 @@ const PluginError = gutil.PluginError;
 
 const webpack = require('webpack');
 const webpackDevServer = require('webpack-dev-server');
-const webpackConfig = require('./webpack.config');
+const makeWebpackConfig = require('./webpack.config');
 const rimraf = require('rimraf');
 
 const PORT = 8080;

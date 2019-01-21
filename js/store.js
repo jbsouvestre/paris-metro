@@ -1,5 +1,5 @@
-import STATIONS from 'json!build/metro.json';
-import Stations from 'models/stations';
+import STATIONS from '../build/metro.json';
+import Stations from './models/stations';
 
 const stations = new Stations(STATIONS);
 

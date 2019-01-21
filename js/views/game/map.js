@@ -5,7 +5,7 @@ import {
     PARIS_LAT,
     DEFAULT_ZOOM
 } from '../../constants';
-import latLngToPoint from 'utils/map/lat-lng-to-point';
+import latLngToPoint from '../../utils/map/lat-lng-to-point';
 
 
 import MapTemplate from '../../templates/game/map.hbs';
