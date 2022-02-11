@@ -1,3 +1,6 @@
+> # 📢 There's a newer version of the game, all fresh up at https://paris.jbsouvestre.com 
+
+
 # Paris Metro Game
 https://www.jbsouvestre.com/paris-metro/
 
